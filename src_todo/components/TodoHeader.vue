@@ -8,7 +8,7 @@
   export default {
     data () {
       return {
-        inputTodo: '' // 不需要使用vuex管理（只有当前组件在使用）
+        inputTodo: ''
       }
     },
     methods: {
@@ -26,8 +26,8 @@
           complete: false
         }
         // 添加到todos中显示
-        // this.addTodo(todo)
-        this.$store.dispatch('addTodo', todo)
+        // 触发父组件中的事件：addTodo
+        this.$emit('addTodo', todo)
         // 清除输入
         this.inputTodo = ''
       }

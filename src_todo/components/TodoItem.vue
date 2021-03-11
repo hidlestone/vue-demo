@@ -1,18 +1,18 @@
 <template>
-  <li :style="{background: bgColor}" @mouseenter="handleEnter(true)" @mouseleave="handleEnter(false)">
+  <li :style="{background:bgColor}" @mouseenter="handleEnter(true)" @mouseleave="handleEnter(false)">
     <label>
       <input type="checkbox" v-model="todo.complete"/>
       <span>{{todo.title}}</span>
     </label>
-    <button
-      class="btn btn-danger" v-show="isShow" @click="deleteItem">删除
-    </button>
+    <button class="btn btn-danger" v-show="isShow" @click="deleteItem">删除</button>
   </li>
 </template>
 
 <script>
+  import PubSub from 'pubsub-js'
+
   export default {
-    props: { // 指定属性名和属性值的类型
+    props: {// 制定属性名和属性值的类型
       todo: Object,
       index: Number
     },
@@ -34,7 +34,8 @@
       },
       deleteItem () {
         // this.deleteTodo(this.index)
-        this.$store.dispatch('deleteTodo', this.index)
+        // 发布消息(deleteTodo)
+        PubSub.publish('deleteTodo', this.index)
       }
     }
   }

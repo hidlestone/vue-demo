@@ -1,24 +1,43 @@
 <template>
   <div class="todo-footer">
     <label>
-      <!--<input type="checkbox" v-model="checkAll"/>-->
-      <slot name="checkAll"></slot>
+      <input type="checkbox" v-model="checkAll"/>
     </label>
-
     <span>
-      <slot name="size"></slot>
-      <!-- <span>已完成{{completeSize}} / 全部{{todos.length}}</span>-->
-    </span>
-
-    <slot name="delete"></slot>
-    <!-- <button class="btn btn-danger" v-show="completeSize" @click="deleteAllCompleted">清除已完成任务</button>-->
+          <span>已完成{{completeSize}}</span> / 全部{{totalSize}}
+        </span>
+    <button class="btn btn-danger" v-show="completeSize" @click="deleteAllCompleted">清除已完成任务</button>
   </div>
 </template>
 
 <script>
-  export default {
+  import {mapGetters} from 'vuex'
 
+  export default {
+    computed: {
+      ...mapGetters(['totalSize', 'completeSize']),
+
+      checkAll: {
+        get () { // 决定是否勾选
+          return this.$store.getters.isAllSelect
+        },
+
+        set (value) { // 点击了全选checkbox  value是当前checkbox的选中状态(true/false)
+          // this.selectAll(value)
+          this.$store.dispatch('selectAll', value)
+        }
+      }
+    },
+    methods: {
+      deleteAllCompleted () {
+        if (window.confirm('确定清除已完成的吗?')) {
+          // this.deleteCompleteTodos()
+          this.$store.dispatch('deleteCompleteTodos')
+        }
+      }
+    }
   }
+
 </script>
 
 <style>
@@ -46,5 +65,4 @@
     float: right;
     margin-top: 5px;
   }
-
 </style>

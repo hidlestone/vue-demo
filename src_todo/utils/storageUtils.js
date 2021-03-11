@@ -5,21 +5,13 @@
 2. 向外暴露一个对象(包含多个功能)
    有多个功能需要暴露
  */
-const TODOS_KEY = 'todos_key'
+
+const TODOS_KEY = 'todos_keys'
 export default {
   readTodos () {
-    return JSON.parse(localStorage.getItem(TODOS_KEY) || '[]')
+    return JSON.parse(localStorage.getItem(TODOS_KEY || '[]'))
   },
   saveTodos (todos) {
     localStorage.setItem(TODOS_KEY, JSON.stringify(todos))
   }
 }
-
-/*
-export function xxx() {
-
-}
-
-export function yyy () {
-
-} */
